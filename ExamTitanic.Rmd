@@ -1,0 +1,42 @@
+---
+title: "Exam_titanic"
+author: "Meiqi Liu"
+date: "2022-10-19"
+output: html_document
+---
+# Using the titanic dataset located at "https://github.com/kijohnson/Data",  prepare an R markdown file that shows the code for a) importing the dataset, b) determining the median age for by passenger class, and c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class. Report the medians by passenger class and upload a PDF or picture of your plot
+
+## a) importing the dataset
+```{r}
+# load library
+pacman::p_load(readr,dplyr,ggplot2)
+
+# import dataset
+titanic<-read.csv("https://raw.githubusercontent.com/kijohnson/Data/main/titanic.csv")
+```
+
+## b) determining the median age for by passenger class
+```{r}
+# change to factor
+titanic$Pclass<-factor(titanic$Pclass)
+
+# get median
+median<-titanic %>% 
+  group_by(Pclass) %>% 
+  summarise(Median=median(Age,na.rm = TRUE))
+```
+
+## c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class
+```{r}
+# output
+png("myplot.png")
+
+# boxplot
+myplot<-ggplot(data=titanic, aes(x=Pclass, y=Age))+
+  geom_boxplot()+
+  labs(x="Passenger Class", y="Passenger Age", title="Boxplot")
+print(myplot)
+dev.off
+```
+
+
