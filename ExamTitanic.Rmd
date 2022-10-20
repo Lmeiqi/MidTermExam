@@ -4,9 +4,13 @@ author: "Meiqi Liu"
 date: "2022-10-19"
 output: html_document
 ---
-# Using the titanic dataset located at "https://github.com/kijohnson/Data",  prepare an R markdown file that shows the code for a) importing the dataset, b) determining the median age for by passenger class, and c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class. Report the medians by passenger class and upload a PDF or picture of your plot
+# Midterm Exam
 
-## a) importing the dataset
+## Question 3
+
+### Using the titanic dataset located at "https://github.com/kijohnson/Data",  prepare an R markdown file that shows the code for a) importing the dataset, b) determining the median age for by passenger class, and c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class. Report the medians by passenger class and upload a PDF or picture of your plot
+
+#### a) importing the dataset
 ```{r}
 # load library
 pacman::p_load(readr,dplyr,ggplot2)
@@ -15,23 +19,26 @@ pacman::p_load(readr,dplyr,ggplot2)
 titanic<-read.csv("https://raw.githubusercontent.com/kijohnson/Data/main/titanic.csv")
 ```
 
-## b) determining the median age for by passenger class
+#### b) determining the median age for by passenger class
 ```{r}
-# change to factor
+# change Pclass to factor
 titanic$Pclass<-factor(titanic$Pclass)
 
-# get median
+# get median age for by passenger class
 median<-titanic %>% 
   group_by(Pclass) %>% 
   summarise(Median=median(Age,na.rm = TRUE))
+# The median for passenger class 1 is 38.5;
+# The median for passenger class 2 is 29.0;
+# The median for passenger class 3 is 24.0;
 ```
 
-## c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class
+#### c) a plot that shows medians, spread of data, and outliers for the continuous variable age according to passenger class
 ```{r}
 # output
 png("myplot.png")
 
-# boxplot
+# boxplot for age by Passenger class
 myplot<-ggplot(data=titanic, aes(x=Pclass, y=Age))+
   geom_boxplot()+
   labs(x="Passenger Class", y="Passenger Age", title="Boxplot")
@@ -39,4 +46,14 @@ print(myplot)
 dev.off
 ```
 
+## Question 4
+
+### b. Next, add code to determine the percentage of males and females by class. Save this new version and push the new version to your Github repository.
+```{r}
+# get percentage of males and females by class
+prop.table(table(titanic$Pclass,titanic$Sex),margin=1)
+# In class 1, 43.5% passengers are female and 56.5% passengers are male.
+# In class 2, 41.3% passengers are female and 58.7% passengers are male.
+# In class 3, 29.6% passengers are female and 70.4% passengers are male.
+```
 
